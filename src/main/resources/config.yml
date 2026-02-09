@@ -1,15 +1,17 @@
-# Configurações de baús por permissão
-# Exemplo: virtualchest.bau.1, virtualchest.bau.2
-max_chests_default: 1
 # Idiomas disponíveis: pt, en
 language: "pt"
+
+# Limite máximo de baús que um jogador comum pode abrir
+max_chests_per_player: 5
 
 messages:
   pt:
     prefix: "§6[BaúVirtual] "
     no_permission: "§cVocê não tem permissão!"
+    limit_reached: "§cVocê atingiu o limite de baús! Seu limite é: %limit%"
     opened: "§aBaú #%id% aberto!"
   en:
     prefix: "§6[VirtualChest] "
     no_permission: "§cYou don't have permission!"
+    limit_reached: "§cYou reached the chest limit! Your limit is: %limit%"
     opened: "§aChest #%id% opened!"
