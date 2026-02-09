@@ -1,0 +1,6 @@
+# Definir idioma: pt ou en
+language: "pt"
+
+# Configurações de baús por permissão
+# Exemplo: virtualchest.bau.1, virtualchest.bau.2
+max_chests_default: 1
