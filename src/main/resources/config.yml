@@ -1,6 +1,15 @@
-# Definir idioma: pt ou en
-language: "pt"
-
 # Configurações de baús por permissão
 # Exemplo: virtualchest.bau.1, virtualchest.bau.2
 max_chests_default: 1
+# Idiomas disponíveis: pt, en
+language: "pt"
+
+messages:
+  pt:
+    prefix: "§6[BaúVirtual] "
+    no_permission: "§cVocê não tem permissão!"
+    opened: "§aBaú #%id% aberto!"
+  en:
+    prefix: "§6[VirtualChest] "
+    no_permission: "§cYou don't have permission!"
+    opened: "§aChest #%id% opened!"

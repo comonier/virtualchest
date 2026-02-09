@@ -1,0 +1,12 @@
+name: VirtualChest
+version: 1.0
+main: com.comonier.virtualchest.Main
+api-version: 1.21
+commands:
+  pv:
+    description: Open Virtual Chest.
+    usage: /pv <number>
+permissions:
+  virtualchest.use:
+    description: Allows the use of the virtualchest system.
+    default: op
