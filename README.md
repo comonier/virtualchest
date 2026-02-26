@@ -1,4 +1,6 @@
-# 📦 VirtualChest - Minecraft 1.21.1
+# 📦 VirtualChest 1.0
+
+1.21+    1.21.11 tested
 
 Private virtual chest plugin for Minecraft servers, developed with a focus on performance and multi-language support.
 
