@@ -1,22 +1,19 @@
 # 📦 VirtualChest - Minecraft 1.21.1
 
-Plugin de baús virtuais privados para servidores Minecraft, desenvolvido com foco em performance e suporte multilíngue.
+Private virtual chest plugin for Minecraft servers, developed with a focus on performance and multi-language support.
 
-## ✨ Funcionalidades
-- **Múltiplos Baús**: Acesso via `/pv <numero>`.
-- **Multilanguage**: Suporte para Português (PT) e Inglês (EN) via `config.yml`.
-- **Sistema de Admin**: Administradores podem inspecionar baús de outros jogadores.
-- **Sons Customizados**: Efeitos sonoros ao abrir os baús.
-- **Persistência**: Salvamento automático de itens em arquivos `.yml` individuais.
+## ✨ Features
+- **Multiple Chests**: Access via `/pv <number>`.
+- **Multilanguage**: Support for Portuguese (PT) and English (EN) via `config.yml`.
+- **Admin System**: Administrators can inspect other players' chests.
+- **Custom Sounds**: Sound effects when opening chests.
+- **Persistence**: Automatic item saving in individual `.yml` files.
 
-## 🛠️ Comandos e Permissões
-| Comando | Descrição | Permissão |
+## 🛠️ Commands and Permissions
+
+| Command | Description | Permission |
 | :--- | :--- | :--- |
-| `/pv <id>` | Abre um baú específico | `virtualchest.pv.<id>` |
-| `/pv admin <player> <id>` | Inspeciona baú de terceiros | `virtualchest.admin` |
+| `/pv <id>` | Opens a specific chest | `virtualchest.pv.<id>` |
+| `/pv admin <player> <id>` | Inspects another player's chest | `virtualchest.admin` |
 
-## 🚀 Como Compilar
-Este projeto utiliza o **Maven**. Para gerar o arquivo `.jar`:
-1. Clone o repositório.
-2. Execute `mvn clean package` no terminal.
-3. O arquivo final estará na pasta `target`.
+
