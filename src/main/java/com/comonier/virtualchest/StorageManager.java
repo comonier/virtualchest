@@ -18,10 +18,11 @@ public class StorageManager {
     }
 
     public void saveChest(String uuid, String chestId, Inventory inv) {
-        // Mapeia apenas slots ocupados (Evita os 'nulls' no YAML)
+        ItemStack[] contents = inv.getContents();
         Map<Integer, ItemStack> itemsToSave = new HashMap<>();
-        for (int i = 0; i < inv.getSize(); i++) {
-            ItemStack item = inv.getItem(i);
+        
+        for (int i = 0; i < contents.length; i++) {
+            ItemStack item = contents[i];
             if (item != null && !item.getType().isAir()) {
                 itemsToSave.put(i, item);
             }
@@ -34,7 +35,7 @@ public class StorageManager {
             File f = new File(folder, uuid + ".yml");
             FileConfiguration config = YamlConfiguration.loadConfiguration(f);
             
-            config.set("chests." + chestId, null); // Limpa lixo anterior
+            config.set("chests." + chestId, null); 
             if (!itemsToSave.isEmpty()) {
                 config.set("chests." + chestId, itemsToSave);
             }
@@ -42,7 +43,11 @@ public class StorageManager {
             try {
                 config.save(f);
             } catch (IOException e) {
-                plugin.getLogger().severe("Erro ao salvar bau: " + uuid);
+                // Puxa a mensagem traduzida e substitui os placeholders
+                String errorMsg = plugin.getMsg("save_error")
+                        .replace("%player%", uuid)
+                        .replace("%id%", chestId);
+                plugin.getLogger().severe(errorMsg);
             }
         });
     }

@@ -1,19 +1,19 @@
 name: VirtualChest
-version: 1.2
+version: 1.3
 main: com.comonier.virtualchest.Main
 api-version: "1.21"
-# O Folia aceita o plugin.yml tradicional desde que tenha esta linha:
 folia-supported: true
 
 commands:
   pv:
     description: Open Virtual Chest.
     usage: /pv <number>
+    aliases: [vc, virtualchest] # Adicionado aliases aqui
 
 permissions:
   virtualchest.use:
     description: Allows the use of the virtualchest system.
     default: op
   virtualchest.admin:
-    description: Allows inspecting other players' chests.
+    description: Allows inspecting other players' chests and reloading.
     default: op

@@ -1,5 +1,5 @@
 # ==========================================
-#      VirtualChest - Mensagens (PT-BR)
+#      VirtualChest - Messages (PT-BR)
 # ==========================================
 prefix: "&6[BaúVirtual] "
 no_permission: "&cVocê não tem permissão!"
@@ -10,3 +10,5 @@ invalid_number: "&cUse um número válido para o baú!"
 player_not_found: "&cJogador não encontrado ou nunca entrou no servidor!"
 admin_inspect: "&eInspecionando baú de %player% #%id%"
 chest_loaded: "&aConteúdo carregado com sucesso!"
+reload_success: "&aConfigurações e mensagens recarregadas com sucesso!"
+save_error: "Erro ao salvar o baú de %player% (ID: %id%)" # Nova chave
