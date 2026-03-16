@@ -1,17 +1,28 @@
-# Idiomas disponíveis: pt, en
-language: "pt"
+# ==========================================
+#         VirtualChest Configuration
+# ==========================================
 
-# Limite máximo de baús que um jogador comum pode abrir
+# Available languages: pt, en
+# (Make sure messages_pt.yml or messages_en.yml files exist)
+language: "en"
+
+# Default chest limit for regular players without specific numeric permissions.
 max_chests_per_player: 5
 
-messages:
-  pt:
-    prefix: "§6[BaúVirtual] "
-    no_permission: "§cVocê não tem permissão!"
-    limit_reached: "§cVocê atingiu o limite de baús! Seu limite é: %limit%"
-    opened: "§aBaú #%id% aberto!"
-  en:
-    prefix: "§6[VirtualChest] "
-    no_permission: "§cYou don't have permission!"
-    limit_reached: "§cYou reached the chest limit! Your limit is: %limit%"
-    opened: "§aChest #%id% opened!"
+# ==========================================
+#          PERMISSION SYSTEM
+# ==========================================
+# The plugin uses a dynamic limit system based on permissions:
+#
+# 1. Numeric Limit:
+#    Grant the permission 'virtualchest.X' (where X is a number) to set a limit.
+#    Example: 'virtualchest.10' allows the player to use chests 1 through 10.
+#
+# 2. Admin Permission:
+#    'virtualchest.admin' - Allows opening ANY chest number and inspecting
+#    other players' chests using the command: /pv admin <player> <id>
+#
+# 3. Base Permission:
+#    'virtualchest.use' - Basic permission to use the /pv command.
+#    (Follows the 'max_chests_per_player' limit defined above).
+# ==========================================

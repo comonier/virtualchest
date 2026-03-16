@@ -22,15 +22,16 @@ public class PVCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        // 1. Verificação de console (Traduzido)
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Apenas jogadores!");
+            sender.sendMessage(plugin.getMsg("only_players"));
             return true;
         }
 
         Player player = (Player) sender;
         String prefix = plugin.getMsg("prefix");
 
-        // --- LÓGICA DE ADMIN ---
+        // --- LÓGICA DE ADMIN (/pv admin <jogador> <id>) ---
         if (args.length >= 3 && args[0].equalsIgnoreCase("admin")) {
             if (!player.hasPermission("virtualchest.admin")) {
                 player.sendMessage(prefix + plugin.getMsg("no_permission"));
@@ -39,55 +40,67 @@ public class PVCommand implements CommandExecutor {
 
             String targetName = args[1];
             String chestId = args[2];
+            
             @SuppressWarnings("deprecation")
             OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
             
-            openVirtualChest(player, target.getUniqueId().toString(), chestId, "§4Admin: " + target.getName() + " #" + chestId);
+            if (!target.hasPlayedBefore() && !target.isOnline()) {
+                player.sendMessage(prefix + plugin.getMsg("player_not_found"));
+                return true;
+            }
+
+            String adminTitle = plugin.getMsg("admin_inspect")
+                    .replace("%player%", target.getName() != null ? target.getName() : targetName)
+                    .replace("%id%", chestId);
+
+            openVirtualChest(player, target.getUniqueId().toString(), chestId, adminTitle);
             return true;
         }
 
-        // --- LÓGICA DE LIMITE ---
+        // --- LÓGICA DE LIMITE DINÂMICO ---
         String chestIdStr = (args.length > 0) ? args[0] : "1";
         int requestedId;
         try {
             requestedId = Integer.parseInt(chestIdStr);
             if (requestedId <= 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            player.sendMessage(prefix + "§cUse um número válido para o baú!");
+            player.sendMessage(prefix + plugin.getMsg("invalid_number"));
             return true;
         }
 
-        // 1. Pega o limite base da config
         int playerLimit = plugin.getConfig().getInt("max_chests_per_player", 5);
 
-        // 2. Procura se o jogador tem uma permissão maior (ex: virtualchest.10)
+        // Busca a maior permissão numérica do jogador
         for (PermissionAttachmentInfo permission : player.getEffectivePermissions()) {
             String perm = permission.getPermission().toLowerCase();
             if (perm.startsWith("virtualchest.")) {
                 try {
-                    String suffix = perm.replace("virtualchest.", "");
-                    int value = Integer.parseInt(suffix);
-                    if (value > playerLimit) {
-                        playerLimit = value;
-                    }
+                    int value = Integer.parseInt(perm.replace("virtualchest.", ""));
+                    if (value > playerLimit) playerLimit = value;
                 } catch (NumberFormatException ignored) {}
             }
         }
 
-        // 3. Verifica se ele é Admin (ignora limite) ou se está dentro do limite
+        // Verifica limite (Admin ignora)
         if (!player.hasPermission("virtualchest.admin") && requestedId > playerLimit) {
-            String msgLimit = plugin.getMsg("limit_reached").replace("%limit%", String.valueOf(playerLimit));
-            player.sendMessage(prefix + msgLimit);
+            player.sendMessage(prefix + plugin.getMsg("limit_reached").replace("%limit%", String.valueOf(playerLimit)));
             return true;
         }
 
-        // Abrir baú
-        String titulo = plugin.getMsg("opened").replace("%id%", String.valueOf(requestedId));
-        openVirtualChest(player, player.getUniqueId().toString(), String.valueOf(requestedId), titulo);
+        // Verificação básica de uso
+        if (!player.hasPermission("virtualchest.use") && !player.hasPermission("virtualchest.admin")) {
+            player.sendMessage(prefix + plugin.getMsg("no_permission"));
+            return true;
+        }
+
+        // Abrir baú (Traduzido)
+        String title = plugin.getMsg("opened").replace("%id%", String.valueOf(requestedId));
+        openVirtualChest(player, player.getUniqueId().toString(), String.valueOf(requestedId), title);
 
         return true;
     }
 
+    // Método seguro para Folia: Async Load + Sync Entity Open
     private void openVirtualChest(Player viewer, String ownerUUID, String chestId, String title) {
         plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
             Inventory gui = Bukkit.createInventory(viewer, 54, title);

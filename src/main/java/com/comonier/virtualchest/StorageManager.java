@@ -7,8 +7,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class StorageManager {
     private final Main plugin;
@@ -18,7 +18,7 @@ public class StorageManager {
     }
 
     public void saveChest(String uuid, String chestId, Inventory inv) {
-        // Criamos um mapa para salvar apenas [Slot -> Item]
+        // Mapeia apenas slots ocupados (Evita os 'nulls' no YAML)
         Map<Integer, ItemStack> itemsToSave = new HashMap<>();
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack item = inv.getItem(i);
@@ -34,8 +34,7 @@ public class StorageManager {
             File f = new File(folder, uuid + ".yml");
             FileConfiguration config = YamlConfiguration.loadConfiguration(f);
             
-            // Limpa o baú anterior para não sobrar lixo e salva o novo mapa
-            config.set("chests." + chestId, null); 
+            config.set("chests." + chestId, null); // Limpa lixo anterior
             if (!itemsToSave.isEmpty()) {
                 config.set("chests." + chestId, itemsToSave);
             }
@@ -43,7 +42,7 @@ public class StorageManager {
             try {
                 config.save(f);
             } catch (IOException e) {
-                plugin.getLogger().severe("Erro ao salvar bau de " + uuid);
+                plugin.getLogger().severe("Erro ao salvar bau: " + uuid);
             }
         });
     }
@@ -56,13 +55,13 @@ public class StorageManager {
         ConfigurationSection section = config.getConfigurationSection("chests." + chestId);
         
         if (section != null) {
-            inv.clear(); // Garante que o baú comece vazio
+            inv.clear();
             for (String key : section.getKeys(false)) {
-                int slot = Integer.parseInt(key);
-                ItemStack item = section.getItemStack(key);
-                if (slot < inv.getSize()) {
-                    inv.setItem(slot, item);
-                }
+                try {
+                    int slot = Integer.parseInt(key);
+                    ItemStack item = section.getItemStack(key);
+                    if (slot < inv.getSize()) inv.setItem(slot, item);
+                } catch (NumberFormatException ignored) {}
             }
         }
     }

@@ -1,0 +1,12 @@
+# ==========================================
+#      VirtualChest - Mensagens (PT-BR)
+# ==========================================
+prefix: "&6[BaúVirtual] "
+no_permission: "&cVocê não tem permissão!"
+limit_reached: "&cVocê atingiu o limite de baús! Seu limite é: %limit%"
+opened: "&aBaú #%id% aberto!"
+only_players: "&cApenas jogadores podem usar este comando!"
+invalid_number: "&cUse um número válido para o baú!"
+player_not_found: "&cJogador não encontrado ou nunca entrou no servidor!"
+admin_inspect: "&eInspecionando baú de %player% #%id%"
+chest_loaded: "&aConteúdo carregado com sucesso!"

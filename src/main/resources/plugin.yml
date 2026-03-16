@@ -1,5 +1,5 @@
 name: VirtualChest
-version: 1.1
+version: 1.2
 main: com.comonier.virtualchest.Main
 api-version: "1.21"
 # O Folia aceita o plugin.yml tradicional desde que tenha esta linha:

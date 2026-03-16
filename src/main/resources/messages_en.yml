@@ -1,0 +1,12 @@
+# ==========================================
+#      VirtualChest - Messages (EN-US)
+# ==========================================
+prefix: "&6[VirtualChest] "
+no_permission: "&cYou don't have permission!"
+limit_reached: "&cYou reached the chest limit! Your limit is: %limit%"
+opened: "&aChest #%id% opened!"
+only_players: "&cOnly players can use this command!"
+invalid_number: "&cPlease use a valid number for the chest!"
+player_not_found: "&cPlayer not found or never joined the server!"
+admin_inspect: "&eInspecting %player%'s chest #%id%"
+chest_loaded: "&aContent loaded successfully!"
