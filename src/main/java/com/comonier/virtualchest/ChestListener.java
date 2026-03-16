@@ -18,22 +18,22 @@ public class ChestListener implements Listener {
     public void onClose(InventoryCloseEvent event) {
         String title = event.getView().getTitle();
         
-        // Verificamos se o título contém o caractere '#' que usamos no PVCommand
+        // Verificamos se o título contém o caractere '#' que usamos para identificar nossos baús
         if (title.contains("#")) {
             try {
-                // Vamos extrair apenas os números do título
-                // Exemplo: "§aBaú #1 aberto!" -> vira "1"
+                // Extraímos apenas os números do título para saber qual ID de baú salvar
+                // Exemplo: "§aBaú #1 aberto!" -> extrai "1"
                 String chestId = title.replaceAll("[^0-9]", "");
                 
                 if (!chestId.isEmpty()) {
                     Inventory inv = event.getInventory();
                     String uuid = event.getPlayer().getUniqueId().toString();
                     
-                    // Salva os itens no arquivo .yml
+                    // Chama o salvamento (que rodará em Async via StorageManager)
                     storage.saveChest(uuid, chestId, inv);
                 }
             } catch (Exception e) {
-                plugin.getLogger().warning("Erro ao salvar bau: " + e.getMessage());
+                plugin.getLogger().warning("Erro ao processar fechamento de bau: " + e.getMessage());
             }
         }
     }

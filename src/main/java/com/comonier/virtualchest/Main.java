@@ -1,7 +1,6 @@
 package com.comonier.virtualchest;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Bukkit;
 
 public class Main extends JavaPlugin {
 
@@ -17,25 +16,28 @@ public class Main extends JavaPlugin {
         this.storage = new StorageManager(this);
         this.langManager = new LangManager(this);
         
-        // 3. Registro de Eventos (Listeners)
+        // 3. Registro de Eventos
         getServer().getPluginManager().registerEvents(new ChestListener(this, storage), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
         
-        // 4. Registro de Comandos
-        getCommand("pv").setExecutor(new PVCommand(this, storage));
-        
-        // Mensagem de sucesso
-        Bukkit.getConsoleSender().sendMessage("§a[VirtualChest] Plugin Enabled!");
+        // 4. Registro de Comando (Compatível com paper-plugin.yml)
+        if (getCommand("pv") != null) {
+            getCommand("pv").setExecutor(new PVCommand(this, storage));
+        }
+
+        getLogger().info("VirtualChest habilitado com suporte a Folia!");
     }
 
     @Override
     public void onDisable() {
-        // Mensagem de encerramento (importante para o log)
-        Bukkit.getConsoleSender().sendMessage("§c[VirtualChest] Plugin Disabled!");
+        getLogger().info("VirtualChest desabilitado.");
     }
     
-    // Método para tradução que agora utiliza a classe LangManager dedicada
     public String getMsg(String path) {
         return langManager.getMessage(path);
+    }
+
+    public StorageManager getStorage() {
+        return storage;
     }
 }

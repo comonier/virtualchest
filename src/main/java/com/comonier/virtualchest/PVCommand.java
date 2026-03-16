@@ -1,13 +1,14 @@
 package com.comonier.virtualchest;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 public class PVCommand implements CommandExecutor {
 
@@ -29,7 +30,7 @@ public class PVCommand implements CommandExecutor {
         Player player = (Player) sender;
         String prefix = plugin.getMsg("prefix");
 
-        // --- LÓGICA DE ADMIN (/pv admin <jogador> <id>) ---
+        // --- LÓGICA DE ADMIN ---
         if (args.length >= 3 && args[0].equalsIgnoreCase("admin")) {
             if (!player.hasPermission("virtualchest.admin")) {
                 player.sendMessage(prefix + plugin.getMsg("no_permission"));
@@ -38,60 +39,64 @@ public class PVCommand implements CommandExecutor {
 
             String targetName = args[1];
             String chestId = args[2];
-            
             @SuppressWarnings("deprecation")
             OfflinePlayer target = Bukkit.getOfflinePlayer(targetName);
             
-            if (target == null || !target.hasPlayedBefore()) {
-                player.sendMessage(prefix + "§cJogador nunca entrou no servidor!");
-                return true;
-            }
-
-            String titulo = "§4Admin: " + target.getName() + " #" + chestId;
-            Inventory gui = Bukkit.createInventory(player, 54, titulo);
-            storage.loadChest(target.getUniqueId().toString(), chestId, gui);
-            
-            player.openInventory(gui);
-            player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1.0f, 0.5f);
-            player.sendMessage(prefix + "§eInspecionando baú de " + target.getName());
+            openVirtualChest(player, target.getUniqueId().toString(), chestId, "§4Admin: " + target.getName() + " #" + chestId);
             return true;
         }
 
-        // --- LÓGICA NORMAL COM LIMITE ---
+        // --- LÓGICA DE LIMITE ---
         String chestIdStr = (args.length > 0) ? args[0] : "1";
-        int chestId;
-
-        // Tenta converter o texto para número
+        int requestedId;
         try {
-            chestId = Integer.parseInt(chestIdStr);
+            requestedId = Integer.parseInt(chestIdStr);
+            if (requestedId <= 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            player.sendMessage(prefix + "§cUse apenas números para o baú!");
+            player.sendMessage(prefix + "§cUse um número válido para o baú!");
             return true;
         }
 
-        // Verifica o limite do config.yml (Admins ignoram o limite)
-        int maxLimit = plugin.getConfig().getInt("max_chests_per_player", 5);
-        if (chestId > maxLimit && !player.hasPermission("virtualchest.admin")) {
-            String msgLimit = plugin.getMsg("limit_reached").replace("%limit%", String.valueOf(maxLimit));
+        // 1. Pega o limite base da config
+        int playerLimit = plugin.getConfig().getInt("max_chests_per_player", 5);
+
+        // 2. Procura se o jogador tem uma permissão maior (ex: virtualchest.10)
+        for (PermissionAttachmentInfo permission : player.getEffectivePermissions()) {
+            String perm = permission.getPermission().toLowerCase();
+            if (perm.startsWith("virtualchest.")) {
+                try {
+                    String suffix = perm.replace("virtualchest.", "");
+                    int value = Integer.parseInt(suffix);
+                    if (value > playerLimit) {
+                        playerLimit = value;
+                    }
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+
+        // 3. Verifica se ele é Admin (ignora limite) ou se está dentro do limite
+        if (!player.hasPermission("virtualchest.admin") && requestedId > playerLimit) {
+            String msgLimit = plugin.getMsg("limit_reached").replace("%limit%", String.valueOf(playerLimit));
             player.sendMessage(prefix + msgLimit);
             return true;
         }
 
-        // Verificação de permissão específica (virtualchest.pv.1, etc)
-        if (!player.hasPermission("virtualchest.pv." + chestId)) {
-            player.sendMessage(prefix + plugin.getMsg("no_permission"));
-            return true;
-        }
-
-        String titulo = plugin.getMsg("opened").replace("%id%", String.valueOf(chestId));
-        Inventory gui = Bukkit.createInventory(player, 54, titulo);
-
-        storage.loadChest(player.getUniqueId().toString(), String.valueOf(chestId), gui);
-
-        player.openInventory(gui);
-        player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1.0f, 1.0f);
-        player.sendMessage(prefix + titulo);
+        // Abrir baú
+        String titulo = plugin.getMsg("opened").replace("%id%", String.valueOf(requestedId));
+        openVirtualChest(player, player.getUniqueId().toString(), String.valueOf(requestedId), titulo);
 
         return true;
+    }
+
+    private void openVirtualChest(Player viewer, String ownerUUID, String chestId, String title) {
+        plugin.getServer().getAsyncScheduler().runNow(plugin, task -> {
+            Inventory gui = Bukkit.createInventory(viewer, 54, title);
+            storage.loadChest(ownerUUID, chestId, gui);
+
+            viewer.getScheduler().run(plugin, t -> {
+                viewer.openInventory(gui);
+                viewer.playSound(viewer.getLocation(), Sound.BLOCK_CHEST_OPEN, 1.0f, 1.0f);
+            }, null);
+        });
     }
 }
