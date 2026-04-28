@@ -17,14 +17,12 @@ public class LangManager {
     public void reloadLang() {
         String lang = plugin.getConfig().getString("language", "en");
         File langFile = new File(plugin.getDataFolder(), "messages_" + lang + ".yml");
-        if (!langFile.exists()) {
-            langFile = new File(plugin.getDataFolder(), "messages_en.yml");
-        }
+        if (!langFile.exists()) langFile = new File(plugin.getDataFolder(), "messages_en.yml");
         this.langConfig = YamlConfiguration.loadConfiguration(langFile);
     }
 
     public String getMessage(String path) {
-        String message = langConfig.getString(path, "&c[Mensagem ausente: " + path + "]");
-        return ChatColor.translateAlternateColorCodes('&', message);
+        String msg = langConfig.getString(path, "&cMissing: " + path);
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 }

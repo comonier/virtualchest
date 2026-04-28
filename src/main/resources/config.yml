@@ -2,12 +2,31 @@
 #         VirtualChest Configuration
 # ==========================================
 
-# Available languages: pt, en
-# (Make sure messages_pt.yml or messages_en.yml files exist)
+# We officially support: en (English), pt (Portuguese), es (Spanish), ru (Russian)
+# Available languages: en, pt, es, ru
+# (Make sure messages_en.yml, messages_pt.yml, etc. files exist)
 language: "en"
 
 # Default chest limit for regular players without specific numeric permissions.
 max_chests_per_player: 5
+
+# Maximum number of backup files to keep in the backups folder.
+# The oldest backups will be deleted when this limit is reached.
+max_backups_to_keep: 30
+
+# ==========================================
+#          STORAGE SYSTEM
+# ==========================================
+# Choose between SQLITE (local file) or MYSQL (external database)
+storage_type: "SQLITE"
+
+mysql:
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "root"
+  password: ""
+  useSSL: false
 
 # ==========================================
 #          PERMISSION SYSTEM

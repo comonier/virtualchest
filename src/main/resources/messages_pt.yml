@@ -1,5 +1,5 @@
 # ==========================================
-#      VirtualChest - Messages (PT-BR)
+#      VirtualChest - Mensagens (PT-BR)
 # ==========================================
 prefix: "&6[BaúVirtual] "
 no_permission: "&cVocê não tem permissão!"
@@ -9,6 +9,25 @@ only_players: "&cApenas jogadores podem usar este comando!"
 invalid_number: "&cUse um número válido para o baú!"
 player_not_found: "&cJogador não encontrado ou nunca entrou no servidor!"
 admin_inspect: "&eInspecionando baú de %player% #%id%"
-chest_loaded: "&aConteúdo carregado com sucesso!"
 reload_success: "&aConfigurações e mensagens recarregadas com sucesso!"
-save_error: "Erro ao salvar o baú de %player% (ID: %id%)" # Nova chave
+
+# Ajuda e Sintaxe de Comandos
+help_header: "&8&m----------------------------------"
+help_footer: "&8&m----------------------------------"
+help_info: "Para abrir um baú, você deve especificar o número dele."
+help_pv: "&e/%label% <id> &7- Abre um baú específico (ex: /%label% 1)."
+help_admin: "&e/%label% admin <player> <id> &7- Inspeciona um baú."
+help_reload: "&e/%label% reload &7- Recarrega as configurações."
+usage_admin: "&cUse: /%label% admin <jogador> <id>"
+internal_error: "&cErro interno ao abrir o baú."
+
+# Sistema e Logs do Console
+save_error: "Erro ao salvar o baú de %player% (ID: %id%)"
+migration_started: "Iniciando migração de %count% arquivos YAML para o banco de dados..."
+migration_finished: "Migração de dados YAML para SQL concluída com sucesso!"
+sql_error: "Erro de SQL ao processar dados de %player% (Baú: %id%)"
+sql_fatal_error: "Falha fatal ao conectar ao Banco de Dados (%type%)! Desativando plugin..."
+plugin_enabled: "VirtualChest Ativo. Modo de armazenamento: %type%"
+plugin_disabled: "VirtualChest desativado e conexões fechadas."
+backup_success: "Backup realizado com sucesso: %file%"
+backup_error: "Erro crítico ao tentar realizar o backup do banco de dados!"

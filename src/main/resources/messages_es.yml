@@ -1,0 +1,33 @@
+# ==========================================
+#      VirtualChest - Mensajes (ES-ES)
+# ==========================================
+prefix: "&6[CofreVirtual] "
+no_permission: "&c¡No tienes permiso!"
+limit_reached: "&c¡Has alcanzado el límite de cofres! Tu límite es: %limit%"
+opened: "&a¡Cofre #%id% abierto!"
+only_players: "&c¡Solo los jugadores pueden usar este comando!"
+invalid_number: "&c¡Usa un número válido para el cofre!"
+player_not_found: "&c¡Jugador no encontrado o nunca se unió al servidor!"
+admin_inspect: "&eInspeccionando cofre de %player% #%id%"
+reload_success: "&a¡Configuraciones y mensajes recargados con éxito!"
+
+# Ayuda y Sintaxis de Comandos
+help_header: "&8&m----------------------------------"
+help_footer: "&8&m----------------------------------"
+help_info: "Para abrir un cofre, debes especificar su número."
+help_pv: "&e/%label% <id> &7- Abre un cofre específico (ej: /%label% 1)."
+help_admin: "&e/%label% admin <jugador> <id> &7- Inspecciona un cofre."
+help_reload: "&e/%label% reload &7- Recarga las configuraciones."
+usage_admin: "&cUso: /%label% admin <jugador> <id>"
+internal_error: "&cError interno al abrir el cofre."
+
+# Sistema y Logs de Consola
+save_error: "Error al guardar el cofre de %player% (ID: %id%)"
+migration_started: "Iniciando migración de %count% archivos YAML a la base de datos..."
+migration_finished: "¡Migración de datos YAML a SQL completada con éxito!"
+sql_error: "Error de SQL al procesar datos de %player% (Cofre: %id%)"
+sql_fatal_error: "¡Fallo fatal al conectar a la Base de Datos (%type%)! Desactivando plugin..."
+plugin_enabled: "VirtualChest Activo. Modo de almacenamiento: %type%"
+plugin_disabled: "VirtualChest desactivado y conexiones cerradas."
+backup_success: "Backup realizado con éxito: %file%"
+backup_error: "¡Error crítico al intentar realizar el backup!"

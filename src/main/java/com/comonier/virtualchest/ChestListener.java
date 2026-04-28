@@ -3,6 +3,7 @@ package com.comonier.virtualchest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 
 public class ChestListener implements Listener {
     private final Main plugin;
@@ -15,13 +16,16 @@ public class ChestListener implements Listener {
 
     @EventHandler
     public void onClose(InventoryCloseEvent event) {
-        String title = event.getView().getTitle();
-        // Verifica o caractere '#' que define nossos baús no PVCommand
-        if (title.contains("#")) {
-            String chestId = title.replaceAll("[^0-9]", "");
-            if (!chestId.isEmpty()) {
-                storage.saveChest(event.getPlayer().getUniqueId().toString(), chestId, event.getInventory());
-            }
+        Inventory inv = event.getInventory();
+        
+        // Verificação segura: O inventário possui o nosso Holder personalizado?
+        // Isso impede que menus de outros plugins (como PlayerParticles) sejam salvos por erro.
+        if (inv.getHolder() instanceof ChestHolder holder) {
+            String uuid = holder.getOwnerUUID();
+            String id = holder.getChestId();
+            
+            // Salva o conteúdo no banco de dados (MySQL ou SQLite)
+            storage.saveChest(uuid, id, inv);
         }
     }
 }
