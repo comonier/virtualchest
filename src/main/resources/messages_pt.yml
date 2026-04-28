@@ -17,9 +17,15 @@ help_footer: "&8&m----------------------------------"
 help_info: "Para abrir um baú, você deve especificar o número dele."
 help_pv: "&e/%label% <id> &7- Abre um baú específico (ex: /%label% 1)."
 help_admin: "&e/%label% admin <player> <id> &7- Inspeciona um baú."
+help_list: "&e/%label% list &7- Lista jogadores com baús salvos."
 help_reload: "&e/%label% reload &7- Recarrega as configurações."
 usage_admin: "&cUse: /%label% admin <jogador> <id>"
 internal_error: "&cErro interno ao abrir o baú."
+
+# Sistema de Lista
+list_header: "&8&m----------------&r &6[Baús Pag %page%/%total%] &8&m----------------"
+list_footer: "&8&m------------------------------------------"
+list_empty: "&cNão há dados de baús no banco de dados."
 
 # Sistema e Logs do Console
 save_error: "Erro ao salvar o baú de %player% (ID: %id%)"

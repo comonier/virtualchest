@@ -17,9 +17,15 @@ help_footer: "&8&m----------------------------------"
 help_info: "To open a chest, you must specify its number."
 help_pv: "&e/%label% <id> &7- Open a specific chest (e.g., /%label% 1)."
 help_admin: "&e/%label% admin <player> <id> &7- Inspect chest."
+help_list: "&e/%label% list &7- List players with stored chests."
 help_reload: "&e/%label% reload &7- Reload configs."
 usage_admin: "&cUsage: /%label% admin <player> <id>"
 internal_error: "&cInternal error opening chest."
+
+# List System
+list_header: "&8&m----------------&r &6[Chest List] &8&m----------------"
+list_footer: "&8&m------------------------------------------"
+list_empty: "&cNo chest data found in the database."
 
 # System & Console Logs
 save_error: "Error saving chest for %player% (ID: %id%)"

@@ -9,7 +9,7 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import java.io.*;
 import java.sql.*;
-import java.util.Base64;
+import java.util.*;
 
 public class StorageManager {
     private final Main plugin;
@@ -135,6 +135,21 @@ public class StorageManager {
                 .replace("%player%", uuid)
                 .replace("%id%", chestId));
         }
+    }
+
+    public Map<String, Set<String>> getPlayersWithChests() {
+        Map<String, Set<String>> playerMap = new HashMap<>();
+        try (PreparedStatement ps = connector.getConnection().prepareStatement("SELECT uuid, chest_id FROM v_chests")) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String uuid = rs.getString("uuid");
+                String chestId = rs.getString("chest_id");
+                playerMap.computeIfAbsent(uuid, k -> new TreeSet<>()).add(chestId);
+            }
+        } catch (SQLException e) {
+            plugin.getLogger().severe("Error fetching player list from database.");
+        }
+        return playerMap;
     }
 
     public void closeConnection() {

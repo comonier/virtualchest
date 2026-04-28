@@ -3,13 +3,13 @@ version: '${project.version}'
 main: com.comonier.virtualchest.Main
 api-version: "1.21"
 folia-supported: true
-description: A high-performance virtual chest system with SQL/MySQL support.
+description: A high-performance virtual storage system with SQL/MySQL support and Admin List tools.
 author: Comonier
 
 commands:
   pv:
-    description: Open a Virtual Chest.
-    usage: /pv <number>
+    description: Main command for VirtualChest. Use /pv <id>, /pv list, or /pv admin.
+    usage: /pv <id|list|admin|reload>
     permission: virtualchest.use
     aliases: [vc, virtualchest]
 
@@ -18,7 +18,7 @@ permissions:
     description: Basic permission to use the virtual chest system.
     default: true
   virtualchest.admin:
-    description: Allows inspecting other players and reloading the plugin.
+    description: Allows inspecting players, using /pv list, and reloading the plugin.
     default: op
   virtualchest.*:
     description: Grant all VirtualChest permissions.

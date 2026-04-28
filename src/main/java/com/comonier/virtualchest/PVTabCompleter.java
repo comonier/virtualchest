@@ -23,6 +23,7 @@ public class PVTabCompleter implements TabCompleter {
             completions.add("reload");
             if (sender.hasPermission("virtualchest.admin")) {
                 completions.add("admin");
+                completions.add("list");
             }
             for (int i = 1; i <= 5; i++) completions.add(String.valueOf(i));
             return completions.stream().filter(s -> s.startsWith(args[0].toLowerCase())).collect(Collectors.toList());
